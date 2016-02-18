@@ -1,9 +1,18 @@
 ﻿<Window x:Class="Jeffijoe.Voidstone.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        Title="Voidstone" Height="350" Width="525">
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:converters="clr-namespace:Jeffijoe.Voidstone.Converters"
+        mc:Ignorable="d"
+        Title="Voidstone" MinHeight="230" Height="350" Width="525" d:DataContext="{d:DesignData MainViewModel}">
+    <Window.Resources>
+        <converters:BetterBooleanToVisibilityConverter x:Key="WorkingVisibility" />
+    </Window.Resources>
     <Grid Margin="10">
         <Grid.RowDefinitions>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
             <RowDefinition Height="auto"/>
             <RowDefinition Height="auto"/>
             <RowDefinition Height="auto"/>
@@ -16,19 +25,29 @@
             <TextBlock>Input directory</TextBlock>
             <DockPanel LastChildFill="True">
                 <Button DockPanel.Dock="Right">Browse</Button>
-                <TextBox></TextBox>
+                <TextBox Text="{Binding InputDirectory, UpdateSourceTrigger=PropertyChanged}"></TextBox>
             </DockPanel>
         </StackPanel>
         <StackPanel Grid.Row="1">
             <TextBlock>Input file pattern</TextBlock>
-            <TextBox></TextBox>
+            <TextBox Text="{Binding InputFilePattern, UpdateSourceTrigger=PropertyChanged}"></TextBox>
         </StackPanel>
         <StackPanel Grid.Row="2">
             <TextBlock>Framerate</TextBlock>
-            <TextBox></TextBox>
+            <TextBox Text="{Binding FramerateString, UpdateSourceTrigger=PropertyChanged}"></TextBox>
         </StackPanel>
-        <StackPanel Grid.Row="3" Margin="0 10 0 0">
-            <Button>Start</Button>
+        <StackPanel Grid.Row="3" >
+            <TextBlock>Output</TextBlock>
+            <DockPanel LastChildFill="True">
+                <Button DockPanel.Dock="Right">Browse</Button>
+                <TextBox Text="{Binding OutputFile, UpdateSourceTrigger=PropertyChanged}"></TextBox>
+            </DockPanel>
+        </StackPanel>
+        <StackPanel Grid.Row="4" Margin="0 10 0 0">
+            <Button Command="{Binding Start}">Start</Button>
+        </StackPanel>
+        <StackPanel Grid.Row="5" Margin="0 20 0 0" HorizontalAlignment="Center">
+            <TextBlock x:Name="WorkingOnItLabel">Working on it...</TextBlock>
         </StackPanel>
     </Grid>
 </Window>
