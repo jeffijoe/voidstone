@@ -5,6 +5,7 @@
 // Author: Jeff Hansen <jeff@jeffijoe.com>
 // Copyright (C) Jeff Hansen 2016. All rights reserved.
 
+using System;
 using System.Windows;
 
 using Jeffijoe.Voidstone.ViewModels;
@@ -28,7 +29,16 @@ namespace Jeffijoe.Voidstone
             this.InitializeComponent();
             this.DataContext = this.ViewModel = new MainViewModel();
             this.WhenAnyObservable(x => x.ViewModel.Start.IsExecuting)
-                        .BindTo(this, x => x.WorkingOnItLabel.Visibility);
+                .BindTo(this, x => x.WorkingOnItLabel.Visibility);
+
+            var startObs = this.WhenAnyObservable(x => x.ViewModel.Start);
+            startObs
+                .Subscribe(
+                    x => {
+                        string message = x ? "It worked!" : "Didn't work, sorry. Check your filepaths.";
+                        string caption = x ? "Yep!" : "Nope";
+                        MessageBox.Show(message, caption, MessageBoxButton.OK);
+                    });
         }
 
         #endregion
@@ -36,7 +46,7 @@ namespace Jeffijoe.Voidstone
         #region Public Properties
 
         /// <summary>
-        /// Gets or sets the view model.
+        ///     Gets or sets the view model.
         /// </summary>
         public MainViewModel ViewModel { get; set; }
 
@@ -45,7 +55,7 @@ namespace Jeffijoe.Voidstone
         #region Explicit Interface Properties
 
         /// <summary>
-        /// Gets or sets the view model.
+        ///     Gets or sets the view model.
         /// </summary>
         object IViewFor.ViewModel
         {

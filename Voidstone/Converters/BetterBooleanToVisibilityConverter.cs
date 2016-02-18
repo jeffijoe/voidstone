@@ -1,10 +1,9 @@
-﻿// ScreenGun
-// - BetterBooleanToVisibilityConverter.cs
-// --------------------------------------------------------------------
-// Authors: 
-// - Jeff Hansen <jeff@jeffijoe.com>
-// - Bjarke Søgaard <ekrajb123@gmail.com>
-// Copyright (C) ScreenGun Authors 2015. All rights reserved.
+﻿// Voidstone
+// - Voidstone
+// -- BetterBooleanToVisibilityConverter.cs
+// -------------------------------------------
+// Author: Jeff Hansen <jeff@jeffijoe.com>
+// Copyright (C) Jeff Hansen 2016. All rights reserved.
 
 using System;
 using System.Globalization;

@@ -25,22 +25,22 @@
             <TextBlock>Input directory</TextBlock>
             <DockPanel LastChildFill="True">
                 <Button DockPanel.Dock="Right">Browse</Button>
-                <TextBox Text="{Binding InputDirectory, UpdateSourceTrigger=PropertyChanged}"></TextBox>
+                <TextBox Text="{Binding InputDirectory, UpdateSourceTrigger=PropertyChanged}" />
             </DockPanel>
         </StackPanel>
         <StackPanel Grid.Row="1">
             <TextBlock>Input file pattern</TextBlock>
-            <TextBox Text="{Binding InputFilePattern, UpdateSourceTrigger=PropertyChanged}"></TextBox>
+            <TextBox Text="{Binding InputFilePattern, UpdateSourceTrigger=PropertyChanged}" />
         </StackPanel>
         <StackPanel Grid.Row="2">
             <TextBlock>Framerate</TextBlock>
-            <TextBox Text="{Binding FramerateString, UpdateSourceTrigger=PropertyChanged}"></TextBox>
+            <TextBox Text="{Binding FramerateString, UpdateSourceTrigger=PropertyChanged}" />
         </StackPanel>
         <StackPanel Grid.Row="3" >
             <TextBlock>Output</TextBlock>
             <DockPanel LastChildFill="True">
                 <Button DockPanel.Dock="Right">Browse</Button>
-                <TextBox Text="{Binding OutputFile, UpdateSourceTrigger=PropertyChanged}"></TextBox>
+                <TextBox Text="{Binding OutputFile, UpdateSourceTrigger=PropertyChanged}" />
             </DockPanel>
         </StackPanel>
         <StackPanel Grid.Row="4" Margin="0 10 0 0">

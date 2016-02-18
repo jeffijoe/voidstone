@@ -6,9 +6,7 @@
 // Copyright (C) Jeff Hansen 2016. All rights reserved.
 
 using System;
-using System.Reactive;
 using System.Reactive.Linq;
-using System.Threading.Tasks;
 using System.Windows;
 
 using ReactiveUI;
@@ -21,14 +19,19 @@ namespace Jeffijoe.Voidstone.ViewModels
     /// </summary>
     public class MainViewModel : ReactiveObject
     {
+        #region Constructors and Destructors
+
         /// <summary>
-        /// Initializes a new instance of the <see cref="MainViewModel"/> class.
+        ///     Initializes a new instance of the <see cref="MainViewModel" /> class.
         /// </summary>
         public MainViewModel()
         {
             this.FramerateString = "24";
+            this.InputDirectory = @"C:\Users\Jeff\Desktop\anim";
+            this.InputFilePattern = @"introcupcakeanimation%01d.jpg";
+            this.OutputFile = @"C:\Users\Jeff\Desktop\anim\a.mp4";
             var obs = this.WhenAny(
-                x => x.FramerateString,
+                x => x.FramerateString, 
                 x => {
                     int number;
                     if (int.TryParse(x.Value, out number))
@@ -50,98 +53,120 @@ namespace Jeffijoe.Voidstone.ViewModels
                     });
 
             this.CanStart = this.WhenAny(
-                x => x.Framerate,
-                x => x.InputDirectory,
-                x => x.InputFilePattern,
-                x => x.OutputFile,
+                x => x.Framerate, 
+                x => x.InputDirectory, 
+                x => x.InputFilePattern, 
+                x => x.OutputFile, 
                 (fr, id, ifp, of) => {
-                    if (fr.Value == 0) return false;
-                    if (string.IsNullOrWhiteSpace(id.Value)) return false;
-                    if (string.IsNullOrWhiteSpace(ifp.Value)) return false;
-                    if (string.IsNullOrWhiteSpace(of.Value)) return false;
+                    if (fr.Value == 0)
+                    {
+                        return false;
+                    }
+
+                    if (string.IsNullOrWhiteSpace(id.Value))
+                    {
+                        return false;
+                    }
+
+                    if (string.IsNullOrWhiteSpace(ifp.Value))
+                    {
+                        return false;
+                    }
+
+                    if (string.IsNullOrWhiteSpace(of.Value))
+                    {
+                        return false;
+                    }
+
                     return true;
                 });
 
             this.Start = ReactiveCommand.CreateAsyncTask(
-                this.CanStart,
+                this.CanStart, 
                 async x => {
-                    Console.WriteLine("Starting! :D");
-                    await Task.Delay(3000);
-                    Console.WriteLine("Done! :D");
+                    var options = new FFMPEGOptions
+                    {
+                        Framerate = this.Framerate, 
+                        InputDirectory = this.InputDirectory, 
+                        OutputFile = this.OutputFile, 
+                        InputFilePattern = this.InputFilePattern
+                    };
+                    return await FFMPEG.StartAsync(options);
                 });
         }
 
+        #endregion
+
+        #region Public Properties
+
         /// <summary>
-        /// Gets the can start.
+        ///     Gets the can start.
         /// </summary>
         /// <value>
-        /// The can start.
+        ///     The can start.
         /// </value>
         public IObservable<bool> CanStart { get; private set; }
 
         /// <summary>
-        /// Gets the is busy.
+        ///     Gets the framerate.
         /// </summary>
         /// <value>
-        /// The is busy.
-        /// </value>
-        public IObservable<bool> IsBusy { get; private set; }
-
-        #region Public Properties
-
-
-        /// <summary>
-        /// Gets the framerate.
-        /// </summary>
-        /// <value>
-        /// The framerate.
+        ///     The framerate.
         /// </value>
         [ObservableAsProperty]
         public extern int Framerate { get; }
 
         /// <summary>
-        /// Gets or sets the framerate string.
+        ///     Gets or sets the framerate string.
         /// </summary>
         /// <value>
-        /// The framerate string.
+        ///     The framerate string.
         /// </value>
         [Reactive]
         public string FramerateString { get; set; }
 
         /// <summary>
-        /// Gets or sets the input directory.
+        ///     Gets or sets the input directory.
         /// </summary>
         /// <value>
-        /// The input directory.
+        ///     The input directory.
         /// </value>
         [Reactive]
         public string InputDirectory { get; set; }
 
         /// <summary>
-        /// Gets or sets the input file pattern.
+        ///     Gets or sets the input file pattern.
         /// </summary>
         /// <value>
-        /// The input file pattern.
+        ///     The input file pattern.
         /// </value>
         [Reactive]
         public string InputFilePattern { get; set; }
 
         /// <summary>
-        /// Gets or sets the output file.
+        ///     Gets the is busy.
         /// </summary>
         /// <value>
-        /// The output file.
+        ///     The is busy.
+        /// </value>
+        public IObservable<bool> IsBusy { get; private set; }
+
+        /// <summary>
+        ///     Gets or sets the output file.
+        /// </summary>
+        /// <value>
+        ///     The output file.
         /// </value>
         [Reactive]
         public string OutputFile { get; set; }
 
         /// <summary>
-        /// Gets the start.
+        ///     Gets the start.
         /// </summary>
         /// <value>
-        /// The start.
+        ///     The start.
         /// </value>
-        public ReactiveCommand<Unit> Start { get; private set; }
+        public ReactiveCommand<bool> Start { get; private set; }
 
         #endregion
     }
