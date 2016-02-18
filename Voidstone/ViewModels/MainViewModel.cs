@@ -27,9 +27,6 @@ namespace Jeffijoe.Voidstone.ViewModels
         public MainViewModel()
         {
             this.FramerateString = "24";
-            this.InputDirectory = @"C:\Users\Jeff\Desktop\anim";
-            this.InputFilePattern = @"introcupcakeanimation%01d.jpg";
-            this.OutputFile = @"C:\Users\Jeff\Desktop\anim\a.mp4";
             var obs = this.WhenAny(
                 x => x.FramerateString, 
                 x => {

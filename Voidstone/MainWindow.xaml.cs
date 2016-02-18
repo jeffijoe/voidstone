@@ -7,10 +7,13 @@
 
 using System;
 using System.Windows;
+using System.Windows.Forms;
 
 using Jeffijoe.Voidstone.ViewModels;
 
 using ReactiveUI;
+
+using MessageBox = System.Windows.MessageBox;
 
 namespace Jeffijoe.Voidstone
 {
@@ -71,5 +74,37 @@ namespace Jeffijoe.Voidstone
         }
 
         #endregion
+
+        /// <summary>
+        /// Browses the input dir click.
+        /// </summary>
+        /// <param name="sender">The sender.</param>
+        /// <param name="e">The <see cref="RoutedEventArgs"/> instance containing the event data.</param>
+        private void BrowseInputDirClick(object sender, RoutedEventArgs e)
+        {
+            var dlg = new FolderBrowserDialog();
+            if (dlg.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+            {
+                this.ViewModel.InputDirectory = dlg.SelectedPath;
+            }
+        }
+
+        /// <summary>
+        /// Browses the output file click.
+        /// </summary>
+        /// <param name="sender">The sender.</param>
+        /// <param name="e">The <see cref="RoutedEventArgs"/> instance containing the event data.</param>
+        private void BrowseOutputFileClick(object sender, RoutedEventArgs e)
+        {
+            var dlg = new SaveFileDialog();
+            dlg.AddExtension = true;
+            dlg.DefaultExt = "mp4";
+            dlg.CheckPathExists = true;
+            dlg.Filter = "MP4 files (.mp4)|*.mp4|MKV files (.mkv)|*.mkv";
+            if (dlg.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+            {
+                this.ViewModel.OutputFile = dlg.FileName;
+            }
+        }
     }
 }
